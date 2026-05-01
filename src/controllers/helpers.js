@@ -10,6 +10,12 @@ export const created = (body) => {
     body,
   };
 };
+export const sucess = (body) => {
+  return {
+    statusCode: 200,
+    body,
+  };
+};
 export const serverError = (body) => {
   return {
     statusCode: 500,
