@@ -14,7 +14,7 @@ export class GetUserByIdController {
       return sucess(user);
     } catch (error) {
       console.error(error);
-      return serverError('Error no servidor.');
+      return serverError();
     }
   }
 }

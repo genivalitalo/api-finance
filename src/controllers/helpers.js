@@ -4,10 +4,12 @@ export const badRequest = (body) => {
     body,
   };
 };
-export const created = (body) => {
+export const created = () => {
   return {
     statusCode: 201,
-    body,
+    body: {
+      sucessMessage: `Operation Sucess!`,
+    },
   };
 };
 export const sucess = (body) => {
@@ -16,9 +18,11 @@ export const sucess = (body) => {
     body,
   };
 };
-export const serverError = (body) => {
+export const serverError = () => {
   return {
     statusCode: 500,
-    body,
+    body: {
+      errorMessage: `Internal Error Server`,
+    },
   };
 };
