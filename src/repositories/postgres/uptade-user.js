@@ -12,7 +12,7 @@ export class PostgresUptadeUserRepository {
     const updateQuery = `
             UPDATE users
             SET ${uptadeField.join(', ')}
-            WHERE id = ${uptadeValues.length}
+            WHERE id = $${uptadeValues.length}
             RETURNING *
         `;
 

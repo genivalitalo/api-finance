@@ -15,8 +15,8 @@ export class CreateUserController {
           return badRequest({ message: `Missing param: ${field}` });
         }
       }
-      const isValidPassword = params.password.length < 6;
-      if (isValidPassword) {
+      const isNotValidPassword = params.password.length < 6;
+      if (isNotValidPassword) {
         return badRequest({ message: `Senha menor que 6 caracteres` });
       }
       const isEmailValid = validator.isEmail(params.email);

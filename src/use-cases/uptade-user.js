@@ -10,7 +10,7 @@ export class UpdateUserUseCase {
       const resultAlreadyEmail = await postgresByRepositoryEmail.execute(
         updateParams.email,
       );
-      if (resultAlreadyEmail) {
+      if (resultAlreadyEmail && resultAlreadyEmail.id !== userId) {
         throw new EmailAlreadyUseError(updateParams.email);
       }
     }
