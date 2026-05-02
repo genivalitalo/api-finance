@@ -1,6 +1,6 @@
-export const badRequest = (body) => {
+export const sucess = (body) => {
   return {
-    statusCode: 400,
+    statusCode: 200,
     body,
   };
 };
@@ -12,9 +12,15 @@ export const created = () => {
     },
   };
 };
-export const sucess = (body) => {
+export const badRequest = (body) => {
   return {
-    statusCode: 200,
+    statusCode: 400,
+    body,
+  };
+};
+export const notFound = (body) => {
+  return {
+    statusCode: 404,
     body,
   };
 };
