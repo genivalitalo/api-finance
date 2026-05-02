@@ -12,3 +12,4 @@ export const idInvalid = () => {
 
 export const checkIfPasswordIsValid = (password) => password.length > 6;
 export const checkIfEmailIsValid = (email) => validator.isEmail(email);
+export const checkIfIdIsValid = (id) => validator.isUUID(id);
