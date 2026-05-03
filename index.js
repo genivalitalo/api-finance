@@ -2,6 +2,7 @@ import 'dotenv/config.js';
 import express from 'express';
 import {
   CreateUserController,
+  DeleteUserController,
   GetUserByIdController,
   UpdateUserController,
 } from './src/controllers/index.js';
@@ -24,6 +25,11 @@ app.get('/api/users/:userId', async (req, res) => {
 app.patch('/api/users/:userId', async (req, res) => {
   const updateUserController = new UpdateUserController();
   const { statusCode, body } = await updateUserController.execute(req);
+  res.status(statusCode).send(body);
+});
+app.delete('/api/users/:userId', async (req, res) => {
+  const deletedUserController = new DeleteUserController();
+  const { statusCode, body } = await deletedUserController.execute(req);
   res.status(statusCode).send(body);
 });
 

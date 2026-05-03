@@ -9,14 +9,13 @@ import {
 export class DeleteUserController {
   async execute(httpRequest) {
     try {
-      const params = httpRequest.body;
       // Validar se ID é válido
-      const isIdValid = checkIfIdIsValid(params.userId);
+      const isIdValid = checkIfIdIsValid(httpRequest.params.userId);
       if (!isIdValid) {
         return idInvalid();
       }
       const deleteUser = new DeleteUserUseCase();
-      const user = await deleteUser.execute(params.userId);
+      const user = await deleteUser.execute(httpRequest.params.userId);
       if (!user) {
         return notFound({ message: 'User not found' });
       }
