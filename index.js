@@ -6,15 +6,17 @@ import {
   GetUserByIdController,
   UpdateUserController,
 } from './src/controllers/index.js';
-import { GetUserByIdRepository } from './src/repositories/postgres/get-user-by-id.js';
+import {
+  GetUserByIdRepository,
+  PostgresCreateUser,
+  PostgresGetUserByEmail,
+  PostgresUptadeUserRepository,
+  PostDeleteUserRepository,
+} from './src/repositories/postgres/index.js';
 import { GetUserByIdUseCase } from './src/use-cases/get-user-by-id.js';
-import { PostgresCreateUser } from './src/repositories/postgres/create-user.js';
 import { CreateUserCase } from './src/use-cases/create-user.js';
-import { PostgresGetUserByEmail } from './src/repositories/postgres/get-user-by-email.js';
-import { PostgresUptadeUserRepository } from './src/repositories/postgres/uptade-user.js';
 import { UpdateUserUseCase } from './src/use-cases/uptade-user.js';
 import { DeleteUserUseCase } from './src/use-cases/delete-user.js';
-import { PostDeleteUserRepository } from './src/repositories/postgres/delete-user.js';
 
 const app = express();
 app.use(express.json());
