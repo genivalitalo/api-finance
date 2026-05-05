@@ -1,4 +1,4 @@
-import { EmailAlreadyUseError } from '../errors/user.js';
+import { EmailAlreadyUseError } from '../../errors/user.js';
 import {
   checkIfEmailIsValid,
   checkIfPasswordIsValid,
@@ -7,7 +7,7 @@ import {
   badRequest,
   created,
   serverError,
-} from './helpers/index.js';
+} from '../helpers/index.js';
 
 export class CreateUserController {
   constructor(createUserUseCase) {
@@ -34,7 +34,6 @@ export class CreateUserController {
       }
 
       const createdUser = await this.createUserUseCase.execute(params);
-
       return created(createdUser);
     } catch (error) {
       if (error instanceof EmailAlreadyUseError) {

@@ -1,0 +1,56 @@
+import validator from 'validator';
+import { badRequest, created, serverError } from '../helpers/http.js';
+import { checkIfIdIsValid, idInvalid } from '../helpers/user.js';
+
+export class CreateTransactionController {
+  constructor(createTransactionUseCase) {
+    this.createTransactionUseCase = createTransactionUseCase;
+  }
+  async execute(httpRequest) {
+    try {
+      const params = httpRequest.body;
+
+      const requireFields = ['id', 'user_id', 'name', 'date', 'amount', 'type'];
+
+      for (const field of requireFields) {
+        if (!params[field] || params[field].trim().length === 0) {
+          return badRequest({ message: `Missing param: ${field}` });
+        }
+      }
+
+      const checkUserId = checkIfIdIsValid(params.user_id);
+      if (!checkUserId) {
+        return idInvalid();
+      }
+      if (params.amount <= 0) {
+        return badRequest({ message: 'O valor precisar ser maior que 0.' });
+      }
+      const checkAmount = validator.isCurrency(params.amount.toString(), {
+        digits_after_decimal: [2],
+        allow_negatives: false,
+        decimal_separator: '.',
+      });
+
+      if (!checkAmount) {
+        return badRequest({
+          message: 'O valor recebido não é decimal.',
+        });
+      }
+      const type = params.type.trim().toUpperCase();
+      const typeIsValid = ['GANHO', 'DESPESA', 'INVESTIMENTO'].includes(type);
+      if (!typeIsValid) {
+        return badRequest({
+          message: 'Type not found',
+        });
+      }
+      const transaction = await this.createTransactionUseCase.execute({
+        ...params,
+        type,
+      });
+      return created(transaction);
+    } catch (error) {
+      console.error(error);
+      return serverError();
+    }
+  }
+}
