@@ -1,4 +1,4 @@
-import { EmailAlreadyUseError } from '../errors/user.js';
+import { EmailAlreadyUseError } from '../../errors/user.js';
 import bcrypt from 'bcrypt';
 export class UpdateUserUseCase {
   constructor(updatePostgresRepository, postgresGetUserByEmail) {

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
-import { EmailAlreadyUseError } from '../errors/user.js';
+import { EmailAlreadyUseError } from '../../errors/user.js';
 export class CreateUserCase {
   constructor(postgresCreateUser, postgresGetUserByEmailRepository) {
     this.postgresCreateUser = postgresCreateUser;
