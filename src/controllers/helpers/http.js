@@ -4,12 +4,10 @@ export const sucess = (body) => {
     body,
   };
 };
-export const created = () => {
+export const created = (body) => {
   return {
     statusCode: 201,
-    body: {
-      sucessMessage: `Operation Sucess!`,
-    },
+    body,
   };
 };
 export const badRequest = (body) => {
