@@ -2,11 +2,13 @@ import {
   checkAmountValue,
   checkIfIdIsValid,
   idInvalid,
-  badRequest,
   created,
   serverError,
   validateRequireFields,
   requiredFieldIsMissingResponse,
+  checkIsTypeValid,
+  checkAmountResponse,
+  checkTypeResponse,
 } from '../helpers/index.js';
 
 export class CreateTransactionController {
@@ -34,16 +36,13 @@ export class CreateTransactionController {
       const checkAmount = checkAmountValue(params.amount);
 
       if (!checkAmount) {
-        return badRequest({
-          message: 'Check the amount, this amount is not valid',
-        });
+        return checkAmountResponse();
       }
+
       const type = params.type.trim().toUpperCase();
-      const typeIsValid = ['GANHO', 'DESPESA', 'INVESTIMENTO'].includes(type);
+      const typeIsValid = checkIsTypeValid(type);
       if (!typeIsValid) {
-        return badRequest({
-          message: 'Type not found',
-        });
+        return checkTypeResponse();
       }
       const transaction = await this.createTransactionUseCase.execute({
         ...params,
