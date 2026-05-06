@@ -1,6 +1,11 @@
-import validator from 'validator';
-import { badRequest, created, serverError } from '../helpers/http.js';
-import { checkIfIdIsValid, idInvalid } from '../helpers/user.js';
+import {
+  checkAmountValue,
+  checkIfIdIsValid,
+  idInvalid,
+  badRequest,
+  created,
+  serverError,
+} from '../helpers/index.js';
 
 export class CreateTransactionController {
   constructor(createTransactionUseCase) {
@@ -22,14 +27,12 @@ export class CreateTransactionController {
       if (!checkUserId) {
         return idInvalid();
       }
+
       if (params.amount <= 0) {
         return badRequest({ message: 'O valor precisar ser maior que 0.' });
       }
-      const checkAmount = validator.isCurrency(params.amount.toString(), {
-        digits_after_decimal: [2],
-        allow_negatives: false,
-        decimal_separator: '.',
-      });
+
+      const checkAmount = checkAmountValue(params.amount);
 
       if (!checkAmount) {
         return badRequest({

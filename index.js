@@ -49,6 +49,7 @@ app.post('/api/transactions', async (req, res) => {
   const createTransactionController = makeCreateTransactionController();
   const { statusCode, body } = await createTransactionController.execute({
     body: req.body,
+    params: req.params,
   });
   res.status(statusCode).json(body);
 });
