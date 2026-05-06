@@ -1,13 +1,13 @@
 import { PostgresHelper } from '../../../db/postgres/helper.js';
 export class PostgresUptadeTransactionRepository {
-  async execute(userId, uptadeParams) {
+  async execute(transactionId, uptadeParams) {
     const uptadeField = [];
     const uptadeValues = [];
     Object.keys(uptadeParams).forEach((key) => {
       uptadeField.push(`${key} = $${uptadeField.length + 1}`);
       uptadeValues.push(uptadeParams[key]);
     });
-    uptadeValues.push(userId);
+    uptadeValues.push(transactionId);
 
     const updateQuery = `
             UPDATE transactions
