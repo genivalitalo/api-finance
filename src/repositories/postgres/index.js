@@ -4,3 +4,4 @@ export * from '../postgres/user/get-user-by-email.js';
 export * from '../postgres/user/get-user-by-id.js';
 export * from '../postgres/user/uptade-user.js';
 export * from '../postgres/transaction/create-transaction.js';
+export * from '../postgres/transaction/get-transaction-by-user-id.js';
