@@ -2,7 +2,7 @@ import validator from 'validator';
 import { badRequest } from './index.js';
 export const checkIfIdIsValid = (id) => validator.isUUID(id);
 export const idInvalid = () => {
-  badRequest({ message: 'ID invalid.' });
+  return badRequest({ message: 'ID invalid.' });
 };
 export const requiredFieldIsMissingResponse = (field) => {
   return badRequest({
@@ -11,6 +11,13 @@ export const requiredFieldIsMissingResponse = (field) => {
 };
 export const checkIsString = (value) => typeof value === 'string';
 export const validateRequireFields = (params, requireFields) => {
+  if (!params) {
+    return {
+      ok: false,
+      missingField: requireFields[0],
+    };
+  }
+
   for (const field of requireFields) {
     const fieldMissing = !params[field];
     const fieldIsEmpty =
@@ -18,6 +25,7 @@ export const validateRequireFields = (params, requireFields) => {
       validator.isEmpty(params[field], {
         ignore_whitespace: true,
       });
+
     if (fieldMissing || fieldIsEmpty) {
       return {
         missingField: field,
@@ -25,6 +33,7 @@ export const validateRequireFields = (params, requireFields) => {
       };
     }
   }
+
   return {
     ok: true,
     missingField: undefined,

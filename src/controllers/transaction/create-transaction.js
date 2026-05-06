@@ -17,14 +17,13 @@ export class CreateTransactionController {
   }
   async execute(httpRequest) {
     try {
-      const params = httpRequest.body;
+      const params = httpRequest.body || {};
 
       const requireFields = ['user_id', 'name', 'date', 'amount', 'type'];
 
-      const { ok: requiredFieldWasProvider, missingField } =
-        validateRequireFields(params, requireFields);
+      const { ok, missingField } = validateRequireFields(params, requireFields);
 
-      if (!requiredFieldWasProvider) {
+      if (!ok) {
         return requiredFieldIsMissingResponse(missingField);
       }
 
