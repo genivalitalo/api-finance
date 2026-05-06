@@ -9,6 +9,9 @@ export class UpdateTransactionUseCase {
         transactionId,
         params,
       );
+    if (!updateTransaction) {
+      throw new Error('Transaction not found');
+    }
     return updateTransaction;
   }
 }

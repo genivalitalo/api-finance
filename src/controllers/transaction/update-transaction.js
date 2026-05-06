@@ -15,11 +15,22 @@ export class UpdateTransactionController {
   }
   async execute(httpRequest) {
     try {
-      const params = httpRequest.body;
+      const params = httpRequest.body || {};
+      const transactionId = httpRequest.params?.transactionId;
 
-      const idIsValid = checkIfIdIsValid(params.transactionId);
+      if (!transactionId) {
+        return badRequest({ message: 'transactionId is required' });
+      }
+
+      const idIsValid = checkIfIdIsValid(transactionId);
       if (!idIsValid) {
         return idInvalid();
+      }
+
+      if (Object.keys(params).length === 0) {
+        return badRequest({
+          message: 'At least one field must be provided for update',
+        });
       }
 
       const allowedFields = ['name', 'date', 'amount', 'type'];
@@ -33,20 +44,28 @@ export class UpdateTransactionController {
           message: 'Algum campo fornecido não é permitido.',
         });
       }
-      const amountIsValid = checkAmountValue(params.amount);
-      if (!amountIsValid) {
-        return checkAmountResponse();
+
+      if (params.amount !== undefined) {
+        const amountIsValid = checkAmountValue(params.amount);
+        if (!amountIsValid) {
+          return checkAmountResponse();
+        }
       }
 
-      const typeIsValid = checkIsTypeValid(params.type);
-      if (!typeIsValid) {
-        return checkTypeResponse();
+      if (params.type !== undefined) {
+        const type = params.type.trim().toUpperCase();
+        const typeIsValid = checkIsTypeValid(params.type);
+        if (!typeIsValid) {
+          return checkTypeResponse();
+        }
+        params.type = type;
       }
 
       const transaction = await this.updateTransactionUseCase.execute(
-        httpRequest.params.transactionId,
+        transactionId,
         params,
       );
+
       return sucess(transaction);
     } catch (error) {
       console.error(error);
