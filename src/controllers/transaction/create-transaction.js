@@ -6,6 +6,7 @@ import {
   created,
   serverError,
   validateRequireFields,
+  requiredFieldIsMissingResponse,
 } from '../helpers/index.js';
 
 export class CreateTransactionController {
@@ -22,9 +23,7 @@ export class CreateTransactionController {
         validateRequireFields(params, requireFields);
 
       if (!requiredFieldWasProvider) {
-        return badRequest({
-          message: `The field ${missingField} is required.`,
-        });
+        return requiredFieldIsMissingResponse(missingField);
       }
 
       const checkUserId = checkIfIdIsValid(params.user_id);
@@ -32,15 +31,11 @@ export class CreateTransactionController {
         return idInvalid();
       }
 
-      if (params.amount <= 0) {
-        return badRequest({ message: 'O valor precisar ser maior que 0.' });
-      }
-
       const checkAmount = checkAmountValue(params.amount);
 
       if (!checkAmount) {
         return badRequest({
-          message: 'O valor recebido não é decimal.',
+          message: 'Check the amount, this amount is not valid',
         });
       }
       const type = params.type.trim().toUpperCase();
