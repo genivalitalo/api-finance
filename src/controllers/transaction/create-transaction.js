@@ -9,8 +9,9 @@ import {
   checkIsTypeValid,
   checkAmountResponse,
   checkTypeResponse,
+  userNotFoundResponse,
 } from '../helpers/index.js';
-
+import { UserNotFound } from '../../errors/user.js';
 export class CreateTransactionController {
   constructor(createTransactionUseCase) {
     this.createTransactionUseCase = createTransactionUseCase;
@@ -50,6 +51,9 @@ export class CreateTransactionController {
       return created(transaction);
     } catch (error) {
       console.error(error);
+      if (error instanceof UserNotFound) {
+        return userNotFoundResponse();
+      }
       return serverError();
     }
   }
